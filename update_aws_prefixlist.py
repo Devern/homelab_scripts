@@ -6,9 +6,9 @@ PREFIX_LIST_ID = "santizedfortheweb"
 
 
 def get_current_ip():
-    request = requests.get('https://canhazip.com')
-    wan_ip = f"{request.text.strip()}/32"
-    return wan_ip
+    response = requests.get('https://canhazip.com')
+    prefix = f"{response.text.strip()}/32"
+    return prefix
 
 
 def query_prefix_list():
