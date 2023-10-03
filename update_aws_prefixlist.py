@@ -19,12 +19,22 @@ def query_prefix_list():
     return prefix
 
 
+def get_prefix_list_version():
+    response = client.describe_managed_prefix_lists(
+        PrefixListIds=[f'{PREFIX_LIST_ID}']
+    )
+    version = response['PrefixLists'][0]['Version']
+    return version
+
+
 def update_prefix_list():
     new_prefix = get_current_ip()
     old_prefix = query_prefix_list()
     if not old_prefix == new_prefix:
+        version = get_prefix_list_version()
         response = client.modify_managed_prefix_list(
             PrefixListId=PREFIX_LIST_ID,
+            CurrentVersion=version,
             AddEntries=[
                 {
                     'Cidr': f'{new_prefix}',
